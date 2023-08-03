@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cardiomyocyte_emulator"
+version = "0.9"
+
+[project.optional-dependencies]
+docs = ['nbsphinx_link @ git+https://github.com/vidartf/nbsphinx-link']
