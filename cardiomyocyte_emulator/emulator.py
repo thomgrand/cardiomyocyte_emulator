@@ -127,7 +127,7 @@ class APEmulator(Module):
 
 def load_default_emulator_model(device="cpu"):
     state_path = Path(__file__).parent / "emulator_state.pt"
-    assert state_path.exists(), f"Missing state file '{state_path:s}'. This should be provided with the repo"
+    assert state_path.exists(), f"Missing state file '{str(state_path):s}'. This should be provided with the repo"
     state_dict = torch.load(state_path, map_location=device)
     max_conds_names = state_dict["max_conds_names"]
     max_conds_ranges = state_dict["max_conds_ranges"]

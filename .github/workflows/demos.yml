@@ -1,0 +1,41 @@
+# This workflow will test the demos provided with the repository
+
+name: Demos
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  test_demos_ubuntu:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install with pip
+      run: |
+        python -m pip install --upgrade pip
+        pip install .[tests,demos]
+    - name: Execute demos
+      run: |
+        cd demos
+        jupyter nbconvert --execute simple_forward.ipynb --to html
+        jupyter nbconvert --execute inverse.ipynb --to html
+
+    - name: Upload Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: demos_html
+        path: demos/.*html
