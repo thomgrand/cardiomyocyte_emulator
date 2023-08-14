@@ -3,13 +3,16 @@ from cardiomyocyte_emulator import APEmulator, load_default_emulator_model
 import torch
 import numpy as np
 
-available_devices = (["cpu", "cuda"] if torch.cuda.is_available() else ["cpu"])
+all_devices = ["cpu", "cuda"]
+available_devices = (all_devices if torch.cuda.is_available() else ["cpu"])
 
 def test_import():
     pass
 
-@pytest.fixture(scope="module", params=available_devices)
+@pytest.fixture(scope="module", params=all_devices)
 def default_emulator_init(request):
+    if request.param not in available_devices:
+        pytest.skip("Cuda not available")
     return load_default_emulator_model(device=request.param)
 
 def test_load_model(default_emulator_init):

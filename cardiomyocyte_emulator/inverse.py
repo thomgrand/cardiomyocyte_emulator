@@ -9,7 +9,8 @@ def match_Vm(emulator : APEmulator, t : np.ndarray, traces : np.ndarray,
                 weights=None,
                 x0=None, lambda_x0=10., x_init=None, 
                 epochs=1000, lr=1e-4, batch_size=None, 
-                optimize_t_offset=False, depol_alignment=False,
+                optimize_t_offset=False,
+                return_best=True,
                 verbose=True) -> np.ndarray:
 
     if traces.ndim == 1:
@@ -66,20 +67,7 @@ def match_Vm(emulator : APEmulator, t : np.ndarray, traces : np.ndarray,
         t_offset = torch.tensor([0.], dtype=torch.float32, device=emulator.device)
 
     best_loss = np.inf
-
-    """
-    #TODO: Remove?
-    if depol_alignment:
-        assert optimize_t_offset, "Currently only possible with offset optimization"
-        diff = np.where(t[np.newaxis, :-1] < 50, np.abs(traces[..., 1:] - traces[..., :-1]), -np.inf)
-        depol_offset = t[diff.argmax(-1)]
-        with torch.no_grad():
-            if t_offset.numel() == 1:
-                assert np.allclose(depol_offset, depol_offset[0])
-                t_offset[:] = depol_offset[0]
-            else:
-                assert False, "Not supported" #TODO
-    """
+    best_params = param_vecs.detach().clone()
 
     pbar = (trange(epochs) if verbose else range(epochs))
     loss_f = lambda x, y: 0.5 * torch.sum(weights * (x - y)**2)
@@ -107,19 +95,18 @@ def match_Vm(emulator : APEmulator, t : np.ndarray, traces : np.ndarray,
             #Projection on the feasible space
             with torch.no_grad():
                 param_vecs[:] = param_vecs.clamp(min=emulator.max_conds_ranges_t[0], max=emulator.max_conds_ranges_t[1])
-                #t_offset[:] = t_offset.clamp(max=2.5) #Avoid cases where the depolarization will be moved out of the frame
 
             total_loss += loss.detach().cpu().numpy()
 
-        if total_loss < best_loss: #TODO: Remove? Currently inactive.
+        if total_loss < best_loss:
             best_loss = total_loss
             best_params = param_vecs.detach().clone()
 
         if verbose and epoch_i % 50 == 0:
             pbar.set_postfix_str(f"Epoch: {epoch_i}, Loss: {total_loss}")
 
-
-    #param_vecs = best_params
+    if return_best:
+        param_vecs = best_params
 
     with torch.no_grad():
         full_pred = emulator.forward_latent(t_t + t_offset, param_vecs)

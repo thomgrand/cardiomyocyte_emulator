@@ -57,7 +57,8 @@ def test_match_Vm_custom_x0(inverse_setup, reset_rand):
     emulator, t, aps, max_conds = inverse_setup
     x0_normed = np.tile([-0.1], (emulator.nr_conds))
     x0 = emulator.denormalize_max_conds_ranges_np(x0_normed)
-    max_conds_est, aps_emulated = match_Vm(emulator, t, aps[1], verbose=False, epochs=100, lr=2.5e-4, x0=x0, lambda_x0=1e10, x_init=x0)
+    max_conds_est, aps_emulated = match_Vm(emulator, t, aps[1], verbose=False, epochs=100, lr=2.5e-4, x0=x0, lambda_x0=1e10, x_init=x0, 
+                                           return_best=False)
     assert np.allclose(max_conds_est - x0, 0., atol=1e-5)
 
 def test_match_Vm_invalid_params(inverse_setup, reset_rand):
