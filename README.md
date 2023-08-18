@@ -1,6 +1,9 @@
 # Cardiomyocyte emulator
 
-This repository demonstrates the pretrained emulator of the paper *Neural network emulation of the human ventricular cardiomyocyte action potential: a tool for more efficient computation in pharmacological studies*, which can be found following the link [TODO](TODO.html).
+[![CI Tests](https://github.com/thomgrand/cardiomyocyte_emulator/actions/workflows/python-package.yml/badge.svg)](https://github.com/thomgrand/cardiomyocyte_emulator/actions/workflows/python-package.yml)
+[![Demos](https://github.com/thomgrand/cardiomyocyte_emulator/actions/workflows/demos.yml/badge.svg)](https://github.com/thomgrand/cardiomyocyte_emulator/actions/workflows/demos.yml)
+
+This repository demonstrates the pretrained emulator of the paper *Neural network emulation of the human ventricular cardiomyocyte action potential: a tool for more efficient computation in pharmacological studies*, which can be found following the link: https://www.biorxiv.org/content/10.1101/2023.08.16.553497.
 
 # Installation
 
@@ -49,5 +52,16 @@ The package uses the open-source AGPL license.
 
 If you use the software for scientific projects, please cite our associated publication
 ```bibtex
-TODO
+@misc{grandits_neural_2023,
+	title = {Neural network emulation of the human ventricular cardiomyocyte action potential: a tool for more efficient computation in pharmacological studies},
+	shorttitle = {Neural network emulation of the human ventricular cardiomyocyte action potential},
+	url = {https://www.biorxiv.org/content/10.1101/2023.08.16.553497},
+	doi = {10.1101/2023.08.16.553497},
+	language = {en},
+	urldate = {2023-08-18},
+	publisher = {bioRxiv},
+	author = {Grandits, Thomas and Augustin, Christoph M. and Haase, Gundolf and Jost, Norbert and Mirams, Gary R. and Niederer, Steven A. and Plank, Gernot and Varro, Andras and Virag, Laszlo and Jung, Alexander},
+	month = aug,
+	year = {2023}
+}
 ```

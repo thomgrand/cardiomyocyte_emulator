@@ -16,7 +16,7 @@ setup(name="cardiomyocyte_emulator",
     url="https://github.com/thomgrand/cardiomyocyte_emulator",
     packages=["cardiomyocyte_emulator"],
     install_requires=lib_requires,
-    python_requires='>=3.6',
+    python_requires='>=3.7',
      author="Grandits et al. (see associated paper)",
      author_email="tomdev@gmx.net",
      license="AGPL",     
@@ -26,4 +26,3 @@ setup(name="cardiomyocyte_emulator",
           'demos': demos_requires
      }
 )
-
